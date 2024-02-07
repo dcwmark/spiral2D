@@ -16,6 +16,7 @@ console.log(`maxim:: ${maxim}`);
 
 const pushCols = (row) => {
   output.push(row);
+  topEdge++;
   console.log(`pushCols:: ${output}`);
 };
 
@@ -26,27 +27,32 @@ const sliceRight = (row, slicer) => {
 
 const reverseLeft = (row) => {
   output.push(row.reverse());
+  bottomEdge++;
   console.log(`reverseLeft:: ${output}`);
 };
 
 let rowCount = 0;
 let verticalStep = 1;
+let topEdge = 0;
+let bottomEdge = matrix.length - 1;
 
 const nextRow = () => {
   rowCount += verticalStep;
-  if (rowCount > matrix.length - 1) {
+  if (rowCount > bottomEdge) {
     verticalStep = -1;
   }
 };
 
 while(output.length <= maxim) {
-  if (rowCount === 0) {
+  if (rowCount === topEdge) {
     pushCols(matrix[rowCount]);
+    // topEdge++;
     nextRow();
-  } else if (rowCount >= matrix.length -1) {
+  } else if (rowCount >= bottomEdge) {
     reverseLeft(matrix[rowCount]);
+    // bottomEdge++;
     nextRow();
-  } else if (rowCount > 0) {
+  } else if (rowCount > topEdge) {
     sliceRight(matrix[rowCount], -1);
     nextRow();
   }
